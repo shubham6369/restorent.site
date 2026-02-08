@@ -9,10 +9,20 @@ export async function POST(request: NextRequest) {
             razorpay_signature,
         } = await request.json();
 
+        const key_secret = process.env.RAZORPAY_KEY_SECRET;
+
+        if (!key_secret) {
+            console.error('Razorpay secret missing');
+            return NextResponse.json(
+                { error: 'Razorpay is not configured' },
+                { status: 503 }
+            );
+        }
+
         // Create signature for verification
         const body = razorpay_order_id + '|' + razorpay_payment_id;
         const expectedSignature = crypto
-            .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
+            .createHmac('sha256', key_secret)
             .update(body.toString())
             .digest('hex');
 
