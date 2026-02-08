@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import {
@@ -36,20 +36,11 @@ export default function ProfilePage() {
         }
     }, [user, loading, router]);
 
-    useEffect(() => {
-        if (user && activeTab === 'orders') {
-            fetchOrders();
-        } else if (user && activeTab === 'wishlist') {
-            fetchWishlist();
-        }
-    }, [user, activeTab]);
-
-    const fetchOrders = async () => {
+    const fetchOrders = useCallback(async () => {
         if (!user) return;
         setFetchingData(true);
         try {
             const ordersRef = collection(db, 'orders');
-            // Assuming we'll add userId to orders soon
             const q = query(
                 ordersRef,
                 where('userId', '==', user.uid),
@@ -64,13 +55,12 @@ export default function ProfilePage() {
             setOrders(ordersData);
         } catch (error) {
             console.error('Error fetching orders:', error);
-            // toast.error('Failed to load orders');
         } finally {
             setFetchingData(false);
         }
-    };
+    }, [user]);
 
-    const fetchWishlist = async () => {
+    const fetchWishlist = useCallback(async () => {
         if (!profile?.wishlist || profile.wishlist.length === 0) {
             setWishlistItems([]);
             return;
@@ -91,7 +81,15 @@ export default function ProfilePage() {
         } finally {
             setFetchingData(false);
         }
-    };
+    }, [profile]);
+
+    useEffect(() => {
+        if (user && activeTab === 'orders') {
+            fetchOrders();
+        } else if (user && activeTab === 'wishlist') {
+            fetchWishlist();
+        }
+    }, [user, activeTab, fetchOrders, fetchWishlist]);
 
     if (loading || !user) {
         return (
