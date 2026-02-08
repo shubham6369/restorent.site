@@ -172,7 +172,7 @@ export default function ProfilePage() {
                         ) : orders.length === 0 ? (
                             <div className="bg-white rounded-2xl p-10 text-center shadow-sm border border-gray-100">
                                 <ShoppingBag size={48} className="mx-auto text-gray-300 mb-4" />
-                                <p className="text-xl text-gray-500 mb-6">You haven't placed any orders yet.</p>
+                                <p className="text-xl text-gray-500 mb-6">You haven&apos;t placed any orders yet.</p>
                                 <button
                                     onClick={() => router.push('/')}
                                     className="bg-orange-500 text-white px-8 py-3 rounded-full font-bold"

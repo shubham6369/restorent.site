@@ -37,7 +37,7 @@ export default function ReservationPage() {
                         <CheckCircle2 size={40} />
                     </div>
                     <h2 className="text-3xl font-bold mb-4">Table Reserved!</h2>
-                    <p className="text-gray-600 mb-10">We've sent a confirmation email to {formData.email}. We look forward to serving you!</p>
+                    <p className="text-gray-600 mb-10">We&apos;ve sent a confirmation email to {formData.email}. We look forward to serving you!</p>
                     <Link href="/" className="inline-block bg-orange-500 text-white px-8 py-4 rounded-full font-bold hover:shadow-lg transition-all">
                         Back to Home
                     </Link>
@@ -59,7 +59,7 @@ export default function ReservationPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-orange-900/90 via-orange-900/20 to-transparent p-12 flex flex-col justify-end text-white">
                             <h2 className="text-4xl font-bold mb-4">A Table for Every Memory</h2>
-                            <p className="text-orange-200">Whether it's a romantic dinner or a family celebration, we have the perfect spot for you.</p>
+                            <p className="text-orange-200">Whether it&apos;s a romantic dinner or a family celebration, we have the perfect spot for you.</p>
                         </div>
                     </div>
 

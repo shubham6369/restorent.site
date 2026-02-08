@@ -106,7 +106,7 @@ export default function LandingPage() {
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                         <div className="max-w-xl">
-                            <h2 className="text-4xl font-bold mb-4">Chef's Recommendations</h2>
+                            <h2 className="text-4xl font-bold mb-4">Chef&apos;s Recommendations</h2>
                             <p className="text-gray-600">Hand-picked dishes that define the TasteHub experience.</p>
                         </div>
                         <Link href="/menu" className="group flex items-center gap-2 text-orange-600 font-bold text-lg">
@@ -145,8 +145,8 @@ export default function LandingPage() {
             <section className="py-24 bg-orange-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-bold text-gray-900 mb-4">Special Offers & Events</h2>
-                        <p className="text-gray-600 font-medium">Don't miss out on our limited-time culinary experiences.</p>
+                        <h2 className="text-4xl font-bold text-gray-900 mb-4">Special Offers &amp; Events</h2>
+                        <p className="text-gray-600 font-medium">Don&apos;t miss out on our limited-time culinary experiences.</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="relative overflow-hidden rounded-[2rem] group h-[400px]">
@@ -154,7 +154,7 @@ export default function LandingPage() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-12 flex flex-col justify-end">
                                 <span className="bg-orange-500 text-white px-4 py-1 rounded-full w-fit mb-4 text-sm font-bold uppercase tracking-wider">Every Weekend</span>
                                 <h3 className="text-3xl font-bold text-white mb-2">Champagne Brunch</h3>
-                                <p className="text-gray-300 mb-6">Enjoy unlimited mimosas and chef's special breakfast platters from 10 AM to 2 PM.</p>
+                                <p className="text-gray-300 mb-6">Enjoy unlimited mimosas and chef&apos;s special breakfast platters from 10 AM to 2 PM.</p>
                                 <button className="bg-white text-gray-900 px-6 py-3 rounded-full font-bold w-fit hover:bg-orange-500 hover:text-white transition-colors">Book a Table</button>
                             </div>
                         </div>
@@ -215,8 +215,8 @@ export default function LandingPage() {
                                 <div className="flex text-yellow-500 mb-6 font-bold">
                                     {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
                                 </div>
-                                <p className="text-lg italic text-gray-300 mb-6">"{t.text}"</p>
-                                <div className="font-bold">— {t.name}</div>
+                                <p className="text-lg italic text-gray-300 mb-6">&quot;{t.text}&quot;</p>
+                                <div className="font-bold">&mdash; {t.name}</div>
                             </div>
                         ))}
                     </div>
