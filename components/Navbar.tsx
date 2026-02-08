@@ -12,7 +12,7 @@ export default function Navbar() {
     const totalItems = getTotalItems();
 
     return (
-        <nav className="sticky top-0 z-40 bg-white shadow-md">
+        <nav className="sticky top-0 z-40 bg-orange-50/80 backdrop-blur-md border-b border-orange-100 shadow-sm">
             <div className="container mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
