@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Utensils, Clock, MapPin, Star, ArrowRight, ChevronRight, ShoppingBag, Heart, Phone, Mail } from 'lucide-react';
+import { Utensils, Clock, MapPin, Star, ArrowRight, ChevronRight, ShoppingBag, Heart, Phone, Mail, CheckCircle } from 'lucide-react';
 
 export default function LandingPage() {
     return (
@@ -37,10 +37,10 @@ export default function LandingPage() {
                                 Explore Menu <ArrowRight size={20} />
                             </Link>
                             <Link
-                                href="/login"
+                                href="/store/register"
                                 className="flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-gray-900 transition-all"
                             >
-                                Join TasteHub
+                                Partner with us
                             </Link>
                         </div>
                     </div>
@@ -291,6 +291,62 @@ export default function LandingPage() {
                 </div>
             </section>
 
+            {/* Vendor Recruitment Section */}
+            <section className="py-24 bg-white relative overflow-hidden">
+                <div className="container mx-auto px-4 relative z-10">
+                    <div className="bg-gray-900 rounded-[3rem] p-10 md:p-16 flex flex-col lg:flex-row items-center gap-12 shadow-2xl">
+                        <div className="lg:w-1/2 space-y-6">
+                            <span className="text-orange-500 font-bold uppercase tracking-widest text-sm">For Business Owners</span>
+                            <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
+                                Want to list your <span className="text-orange-500">Store</span> on TasteHub?
+                            </h2>
+                            <p className="text-gray-400 text-lg leading-relaxed">
+                                Join the fastest growing food network. Reach thousands of local customers,
+                                manage orders with our powerful dashboard, and grow your revenue effortlessly.
+                            </p>
+                            <ul className="space-y-4">
+                                {[
+                                    'Zero integration fee for first 30 days',
+                                    'Real-time order tracking & analytics',
+                                    'Secure & instant digital payments',
+                                    '24/7 dedicated partner support'
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-center gap-3 text-white font-semibold">
+                                        <div className="bg-orange-500 rounded-full p-1"><CheckCircle size={14} /></div>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                                <Link
+                                    href="/store/register"
+                                    className="bg-orange-500 text-white px-8 py-4 rounded-2xl font-black text-lg hover:shadow-2xl hover:shadow-orange-500/20 hover:scale-105 transition-all text-center"
+                                >
+                                    Register as a Store
+                                </Link>
+                                <Link
+                                    href="/store/login"
+                                    className="border-2 border-white/20 text-white px-8 py-4 rounded-2xl font-black text-lg hover:bg-white hover:text-gray-900 transition-all text-center"
+                                >
+                                    Partner Login
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="lg:w-1/2 relative">
+                            <div className="relative z-10 rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white/10 rotate-3 hover:rotate-0 transition-transform duration-500">
+                                <img
+                                    src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&q=80&w=800"
+                                    alt="Restaurant Owner"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            {/* Decorative element */}
+                            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-500 rounded-3xl -z-10 rotate-12"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* CTA Section */}
             <section className="py-24">
                 <div className="container mx-auto px-4">
@@ -311,6 +367,7 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
+
         </main>
     );
 }

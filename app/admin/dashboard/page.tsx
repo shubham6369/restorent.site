@@ -18,45 +18,45 @@ import { Order } from '@/types';
 import { LogOut, Bell, Clock, ChefHat, CheckCircle, Settings } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
+import { useAuth } from '@/context/AuthContext';
 
 export default function AdminDashboardPage() {
     const router = useRouter();
-    const [user, setUser] = useState<any>(null);
+    const { user, profile, loading: authLoading } = useAuth();
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState<Order[]>([]);
-    const [filter, setFilter] = useState<'all' | 'new' | 'preparing' | 'served'>('all');
+    const [filter, setFilter] = useState<'all' | 'new' | 'preparing' | 'served' | 'delivered'>('all');
     const [audioEnabled, setAudioEnabled] = useState(true);
 
     // Auth check
     useEffect(() => {
-        if (!auth) {
-            // Demo mode: set a mock admin user
-            setUser({ email: 'admin@demo.com', displayName: 'Demo Admin' });
-            setLoading(false);
+        if (authLoading) return;
+
+        if (!user && auth) {
+            router.push('/store/login');
             return;
         }
 
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser(user);
-                setLoading(false);
-            } else {
-                router.push('/admin');
-            }
-        });
+        if (profile && profile.role !== 'store_owner' && profile.role !== 'admin' && user?.email !== 'admin@restaurant.com') {
+            toast.error('Unauthorized access');
+            router.push('/');
+            return;
+        }
 
-        return () => unsubscribe();
-    }, [router]);
+        setLoading(false);
+    }, [user, profile, authLoading, router]);
 
     // Real-time orders listener
     useEffect(() => {
-        if (!user) return;
+        if (!user || authLoading) return;
 
         if (!db) {
             // Demo mode: provide mock orders
             const mockOrders: Order[] = [
                 {
                     id: 'demo-order-1',
+                    storeId: 'demo-store',
+                    customerId: 'user-1',
                     items: [{ menuItemId: '1', name: 'Classic Margherita', price: 299, quantity: 1 }],
                     tableNumber: '5',
                     totalAmount: 299,
@@ -68,6 +68,8 @@ export default function AdminDashboardPage() {
                 },
                 {
                     id: 'demo-order-2',
+                    storeId: 'demo-store',
+                    customerId: 'user-2',
                     items: [{ menuItemId: '2', name: 'Veg Supreme Pizza', price: 449, quantity: 2 }],
                     tableNumber: '12',
                     totalAmount: 898,
@@ -79,16 +81,28 @@ export default function AdminDashboardPage() {
                 }
             ];
             setOrders(mockOrders);
-            setLoading(false);
             return;
         }
 
         const ordersRef = collection(db, 'orders');
-        const q = query(
-            ordersRef,
-            orderBy('createdAt', 'desc'),
-            limit(50)
-        );
+        let q;
+
+        if (profile?.role === 'store_owner' && profile.storeId) {
+            // Filter by storeId for vendors
+            q = query(
+                ordersRef,
+                where('storeId', '==', profile.storeId),
+                orderBy('createdAt', 'desc'),
+                limit(50)
+            );
+        } else {
+            // Show all for system admin
+            q = query(
+                ordersRef,
+                orderBy('createdAt', 'desc'),
+                limit(50)
+            );
+        }
 
         const unsubscribe = onSnapshot(
             q,
@@ -113,12 +127,13 @@ export default function AdminDashboardPage() {
             },
             (error) => {
                 console.error('Error fetching orders:', error);
-                toast.error('Failed to fetch orders');
+                // toast.error('Check console for permission errors');
             }
         );
 
         return () => unsubscribe();
-    }, [user, orders.length, audioEnabled]);
+    }, [user, profile, orders.length, audioEnabled, authLoading]);
+
 
     const playNotificationSound = () => {
         const audio = new Audio('/notification.mp3');

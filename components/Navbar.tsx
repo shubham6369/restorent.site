@@ -48,7 +48,7 @@ export default function Navbar() {
 
                         {user ? (
                             <div className="flex items-center gap-4 md:gap-6">
-                                {isAdmin ? (
+                                {(profile?.role === 'store_owner' || profile?.role === 'admin') ? (
                                     <Link
                                         href="/admin/dashboard"
                                         className="text-gray-700 hover:text-orange-600 font-semibold transition-colors"
@@ -56,13 +56,21 @@ export default function Navbar() {
                                         Dashboard
                                     </Link>
                                 ) : (
-                                    <Link
-                                        href="/profile"
-                                        className="flex items-center gap-2 text-gray-700 hover:text-orange-600 font-semibold transition-colors"
-                                    >
-                                        <UserIcon size={20} />
-                                        <span className="hidden md:inline">Profile</span>
-                                    </Link>
+                                    <>
+                                        <Link
+                                            href="/profile"
+                                            className="flex items-center gap-2 text-gray-700 hover:text-orange-600 font-semibold transition-colors"
+                                        >
+                                            <UserIcon size={20} />
+                                            <span className="hidden md:inline">Profile</span>
+                                        </Link>
+                                        <Link
+                                            href="/store/register"
+                                            className="text-gray-700 hover:text-orange-600 font-semibold transition-colors hidden xl:block"
+                                        >
+                                            Partner with us
+                                        </Link>
+                                    </>
                                 )}
                                 <button
                                     onClick={logout}
@@ -73,13 +81,22 @@ export default function Navbar() {
                                 </button>
                             </div>
                         ) : (
-                            <Link
-                                href="/login"
-                                className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-full font-bold text-sm hover:shadow-lg transition-all"
-                            >
-                                Login
-                            </Link>
+                            <div className="flex items-center gap-4">
+                                <Link
+                                    href="/store/register"
+                                    className="text-gray-700 hover:text-orange-600 font-semibold transition-colors hidden sm:block"
+                                >
+                                    Partner with us
+                                </Link>
+                                <Link
+                                    href="/login"
+                                    className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-full font-bold text-sm hover:shadow-lg transition-all"
+                                >
+                                    Login
+                                </Link>
+                            </div>
                         )}
+
 
                         {/* Cart Icon */}
                         <Link

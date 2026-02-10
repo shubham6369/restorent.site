@@ -35,6 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 uid: 'demo-user',
                 email: 'guest@example.com',
                 displayName: 'Guest User',
+                role: 'customer',
                 wishlist: [],
                 createdAt: new Date(),
             });
@@ -46,7 +47,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUser(user);
             if (user) {
                 // Check if admin
-                setIsAdmin(user.email === 'admin@restaurant.com');
+                const isSystemAdmin = user.email === 'admin@restaurant.com';
+                setIsAdmin(isSystemAdmin);
 
                 // Get or create user profile in Firestore
                 try {
@@ -54,19 +56,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     const profileSnap = await getDoc(profileRef);
 
                     if (profileSnap.exists()) {
-                        setProfile(profileSnap.data() as UserProfile);
+                        const profileData = profileSnap.data() as UserProfile;
+                        setProfile(profileData);
                     } else {
-                        if (user.email !== 'admin@restaurant.com') {
-                            const newProfile: UserProfile = {
-                                uid: user.uid,
-                                email: user.email || '',
-                                displayName: user.displayName || '',
-                                wishlist: [],
-                                createdAt: new Date(),
-                            };
-                            await setDoc(profileRef, newProfile);
-                            setProfile(newProfile);
-                        }
+                        const newProfile: UserProfile = {
+                            uid: user.uid,
+                            email: user.email || '',
+                            displayName: user.displayName || '',
+                            role: isSystemAdmin ? 'admin' : 'customer',
+                            wishlist: [],
+                            createdAt: new Date(),
+                        };
+                        await setDoc(profileRef, newProfile);
+                        setProfile(newProfile);
                     }
                 } catch (err) {
                     console.error("Profile fetch error:", err);
@@ -80,6 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         return () => unsubscribe();
     }, []);
+
 
     const logout = async () => {
         if (auth) await firebaseSignOut(auth);
